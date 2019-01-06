@@ -1,0 +1,183 @@
+body, html{
+    width: 100%;
+    height: 100%;
+    background: #22c1c3;
+    background: -webkit-linear-gradient(to right, #fdbb2d, #22c1c3);
+    background: linear-gradient(to left, #ffaba0, #b1ffbe);
+    background-size: cover;
+}
+
+button:focus {outline: none;}
+button:hover {cursor: pointer;}
+
+input[type=checkbox]:hover {cursor: pointer;}
+
+div:hover {cursor: default;}
+
+#head-brand:hover {
+    cursor: default;
+}
+
+#btn-add-prize-collapse {
+    border: none;
+    background: transparent;
+    color: #061f3d;
+    transition: 400ms;
+}
+
+#btn-draw-a-number {outline: none;}
+
+.dropdown-menu {min-width: 20rem;}
+
+.dropdown-item:hover {background: #969696bb;}
+
+hr.fashion-fading {
+    margin-top: 5px;
+    margin-bottom: 30px;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
+.right-main-card {
+    background: #fff0dcc4;
+    margin-top: 50px;
+    border: 0;
+    width: 85%;
+}
+
+.prize-selected .card {
+    border: #0b2341 2px solid;
+    transition: 300ms;
+}
+
+.prize-selected .prize-title {
+    background: #113868;
+    color: white;
+    transition: 300ms;
+}
+
+.prize-title {
+    background: #ffffff85;
+    border: 0;
+    border-radius: .25rem !important ;
+    text-align: left;
+    padding: 5px 25px 5px 25px;
+}
+
+.prize-title:hover, .prize-title div:hover {cursor: pointer;}
+
+.fa-caret-down, .fa-caret-right {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.add-prize-name, .add-prize-amount, .add-prize-button {
+    margin: 0;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 1rem;
+    background-color: #ffffffc2;
+    color: #2980b9;
+    border: 3px solid transparent;
+    border-radius: 0;
+    transition: 300ms;
+    padding: 0;
+}
+
+.add-prize-name:focus, .add-prize-amount:focus, .add-prize-button:focus {
+    background-color: white;
+    border-color: #9cd7ff;
+    transition: 300ms;
+}
+
+.add-prize-name:hover , .add-prize-amount:hover{
+    border: 3px solid #9cd7ff;
+    transition: 300ms;
+}
+
+.add-prize-button:hover {
+    color: white;
+    transition: 300ms;
+    background: #9cd7ff;
+}
+
+#main-prize-list {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 450px;
+    overflow-y: scroll;
+}
+
+#main-prize-list > :first-child {
+    margin-bottom: auto !important;
+}
+
+#main-prize-list li:nth-of-type(2n-1) .card {
+    background-color: #fff0f0;
+}
+
+#main-prize-list li:nth-of-type(2n) .card {
+    background-color: #e6fff2;
+}
+
+.card {
+    border: 2px solid transparent;
+    transition: 500ms;
+}
+
+.prize-box, .prize-box .card {
+    border-radius: .25rem !important ;
+}
+
+.prize-box:hover .card {
+    border-color: #294cacc9;
+    transition: 500ms;
+}
+
+.list-group-item {
+    border: 0;
+    background: transparent;
+    padding: 5px 25px 5px 25px;
+    font-size: 1.4rem;
+    transition: 300ms;
+}
+
+.list-number-item:hover {
+    background: #caeaff;
+    transition: 300ms;
+}
+
+.delete-number-icon {
+    width: 16%;
+    max-width: 45px;
+    min-width: 36px;
+    padding: 0 2px 0 2px;
+    color: #b60e0e;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 20%;
+    opacity: 0;
+    transition: 500ms;
+}
+
+.list-number-item:hover .delete-number-icon {
+    opacity: 1;
+    transition: 500ms;
+}
+
+.delete-number-icon:hover {
+    border-color: #ff0000;
+    color: #ff0000;
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.prize-box .card ul.list-group .list-group-item {
+    border-radius: .25rem !important ;
+    margin: 0 !important ;
+    border: 0 !important ;
+}
+

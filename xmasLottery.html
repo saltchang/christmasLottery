@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>茄典聖誕抽獎機</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./assets/css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/xmasLottery.css" />
+</head>
+
+<body>
+
+    <!-- Modal -->
+    <!-- ResetAll Warning -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-reset-all">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">重設全部</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        警告：
+                        <br><br>
+                        你即將重設這個頁面的所有資料以及設定，包括所有的獎品以及被抽過的號碼都將刪除並重置。<br>
+                        並且套用你所自訂的參數。如果輸入參數為空白，將自動套用預設值。
+                        <br><br>
+                        再次警告，你確定重設全部嗎？
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-reset-all-cancel">取消</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btn-reset-all-confirm">確定重設</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Number Warning -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-delete-a-number">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">刪除號碼</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        請選擇你要刪除這個號碼的方式：<br><br>
+                        A. 永久刪除 （適用於沒有人出來領獎時）<br>
+                        這個號碼將永遠從這次的抽獎活動中被排除。<br>
+                        它不會再被抽到。<br>
+                        <br>
+                        B. 暫時移除 （適用於誤抽時）<br>
+                        這個號碼將被放回抽獎機當中，變回沒有被抽過的狀態。<br>
+                        它還是有再被抽到的機會。
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-delete-a-number-cancel">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn-delete-a-number-forever">永久刪除</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn-delete-a-number-fornow">暫時移除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="opacity:0.8;">
+        <div class="container justify-content-center">
+            <a id="head-brand" class="navbar-brand" href="javascript:void(0)" >2018 星光聖誕抽獎機</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse d-lg-inline-flex" id="navbarSupportedContent" style="flex-grow:0;">
+                <ul class="navbar-nav mr-0">
+                    <!-- Drawing Setting -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="javascript:void(0)" id="dropdown-drawing-setting" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            抽獎設定
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-drawing-setting">
+                            <input id="input-initial-range-min" class="dropdown-item form-control mr-sm-2" type="number" placeholder="設定最小號碼(預設為1)" min="1" value="">
+                            <input id="input-initial-range-max" class="dropdown-item form-control mr-sm-2" type="number" placeholder="設定最大號碼(預設為600)"min="1" value="">
+                            <div class="dropdown-divider"></div>
+                            <input id="input-protect-time" class="dropdown-item form-control mr-sm-2" type="number" placeholder="保護延遲(預設為1000ms)" min="0" value="">
+                            <input id="input-effect-time" class="dropdown-item form-control mr-sm-2" type="number" placeholder="效果時間(預設為1000ms)" min="0" value="">
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="input-drawing-effect-checkbox" checked>
+                                    <label class="form-check-label" for="input-drawing-effect-checkbox">
+                                        抽獎效果
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <button id="input-btn-reset-all" class="dropdown-item">重設全部並套用自訂參數</button>
+                        </div>
+                    </li>
+                    <!-- Add A Specific Number -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="javascript:void(0)" id="dropdown-add-specific" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            加入號碼
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-add-specific">
+                            <input id="input-specific-number" class="dropdown-item form-control mr-sm-2" type="number" placeholder="輸入指定號碼" min="0" value="">
+                            <div class="dropdown-divider"></div>
+                            <button id="input-add-specific-number" class="dropdown-item">加入</a>
+                        </div>
+                    </li>
+                    <!-- Commander -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="javascript:void(0)" id="dropdown-drawing-setting" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            特殊指令
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-drawing-setting">
+                            <button id="input-btn-delete-selected-prize" class="dropdown-item">刪除目前選擇的禮物</a>
+                        </div>
+                    </li>
+                </ul>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <div class="container-fluid" style="margin-top: 50px;">
+        <div class="row main-row">
+            <!-- Left Side Section -->
+            <div class="col-md-6 text-center" style="">
+                <div class="p-3" style="width: 80%; margin:50px auto 0 auto;">
+                    <div class="row" style="height: 50px;">
+                        <div class="p-0 col-2">
+                            <h5 class="d-inline-flex m-0 h-100 align-items-end" style="font-size:1.4rem;">禮物</h5>
+                        </div>
+                        <div class="p-0 col-5">
+                            <h4 id="display-selected-prize-name" class="d-inline-flex m-0 h-100 align-items-end" style="font-size:1.7rem;"></h4>
+                        </div>
+                        <div class="p-0 col-2">
+                            <h5 class="d-inline-flex m-0 h-100 align-items-end" style="font-size:1.4rem;">還剩</h5>
+                        </div>
+                        <div class="p-0 col-2">
+                            <h4 id="display-selected-prize-remain" class="d-inline-flex m-0 h-100 align-items-end" style="font-size:1.7rem;"></h4>
+                        </div>
+                        <div class="p-0 col-1">
+                            <h5 class="d-inline-flex m-0 h-100 align-items-end" style="font-size:1.4rem;">份</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="fashion-fading">
+
+                <div class="container" style="">
+                    <h3 class="text-center" style="">中獎號碼</h3>
+                    <h1 id="display-current-drawed-number" class="text-center" style="font-size:7rem;">000</h1>
+                    <div class="text-center" style="">
+                        <button class="w-25 btn btn-lg btn-outline-danger text-center" id="btn-draw-a-number">抽獎</button>
+                    </div>
+                    <h6 id="display-drawing-status" class="text-center mt-3" style="">按下抽獎按鈕馬上開獎！</h6>
+                </div>
+            </div>
+
+            <!-- Right Side Section -->
+            <div class="col-md-6 p-0" style="">
+                <div class="container d-flex justify-content-center" style="">
+                    <div class="card right-main-card" style="background: #fff0dcc4; margin-top: 50px; border: 0; width: 80%">
+                        <!-- List Title -->
+                        <div class="card-header font-weight-bold text-center" style="font-size: 1.5rem; background: #d4f5ffef; border:none;">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-8" style="color:#1d4879ef;">中獎清單</div>
+                                <div class="col-2 pl-0">
+                                    <button class="collapsed" id="btn-add-prize-collapse" type="button" data-toggle="collapse" data-target="#input-prize-collapse" aria-expanded="false" aria-controls="collapsePrize">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group collapse" id="input-prize-collapse">
+                            <div class="p-0">
+                                <div class="row m-0 my-2">
+                                    <div class="col-7 pr-0">
+                                        <input id="input-add-prize-name" class="add-prize-name" type="text" placeholder="禮物名稱">
+                                    </div>
+                                    <div class="col-3 p-0">
+                                        <input id="input-add-prize-amount" type="text" class="add-prize-amount" placeholder="數量">
+                                    </div>
+                                    <div class="col-2 text-center pl-0">
+                                        <button id="input-add-prize-btn" type="button" class="btn add-prize-button">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- List Body -->
+                        <ul id="main-prize-list" class="list-group list-group-flush">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- script -->
+    <script src="./assets/js/lib/jquery-3.3.1.min.js"></script>
+    <script src="./assets/js/lib/bootstrap.min.js"></script>
+    <script src="./assets/js/xmasLottery.js"></script>
+</body>
+</html>
